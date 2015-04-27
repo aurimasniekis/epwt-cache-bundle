@@ -1,7 +1,7 @@
 EPWTCacheBundle
 ===============
 [![Latest Stable Version](https://poser.pugx.org/epwt/cache-bundle/v/stable)](https://packagist.org/packages/epwt/cache-bundle) [![Total Downloads](https://poser.pugx.org/epwt/cache-bundle/downloads)](https://packagist.org/packages/epwt/cache-bundle) [![Latest Unstable Version](https://poser.pugx.org/epwt/cache-bundle/v/unstable)](https://packagist.org/packages/epwt/cache-bundle) [![License](https://poser.pugx.org/epwt/cache-bundle/license)](https://packagist.org/packages/epwt/cache-bundle)
-[![Analytics](https://ga-beacon.appspot.com/UA-62340336-1/gcds/epwt-cache)](https://github.com/igrigorik/ga-beacon) 
+[![Analytics](https://ga-beacon.appspot.com/UA-62340336-1/gcds/epwt-cache)](https://github.com/igrigorik/ga-beacon) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/736ce78f-ddec-4742-a475-c9a8725eaed0/big.png)](https://insight.sensiolabs.com/projects/736ce78f-ddec-4742-a475-c9a8725eaed0)
 
 
 The EPWTCacheBundle provides wrapper for [epwt/cache](https://github.com/gcds/epwt-cache) library smashed with [Symfony DependencyInjection](https://github.com/symfony/DependencyInjection) magic.
