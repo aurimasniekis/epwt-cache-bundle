@@ -18,18 +18,14 @@ EPWT/Cache is PSR-6 (Yes it only proposed) compiliant CacheItemPool implementati
 ## Instalation
 
 ```bash
-
-	composer require epwt/cache-bundle "~1.0"
-	
+composer require epwt/cache-bundle "~1.0"
 ``` 
 
 ```php
-
-	public function registerBundles()
-	{
-		$bundles[] = new EPWT\CacheBundle\EPWTCacheBundle();
-	}
-	
+public function registerBundles()
+{
+	$bundles[] = new EPWT\CacheBundle\EPWTCacheBundle();
+}
 ```
  
 ## Configuration
@@ -46,21 +42,17 @@ All CacheItemPool configuration is done via Symfony Container
 #### Redis Driver
 
 ```xml
-
-	<service id="acme.demo.items.pool" class="stdClass">
-	    <tag name="epwt_cache_pool" alias="acme_demo_pool" driver="redis" redis-id="acme.demo.redis"/>
-	</service>
-	
+<service id="acme.demo.items.pool" class="stdClass">
+    <tag name="epwt_cache_pool" alias="acme_demo_pool" driver="redis" redis-id="acme.demo.redis"/>
+</service>
 ```
 
 #### SncRedis Driver
 
 ```xml
-
-	<service id="acme.demo.items.pool" class="stdClass">
-	    <tag name="epwt_cache_pool" alias="acme_demo_pool" driver="snc_redis" sncredis-client="default"/>
-	</service>
-	
+<service id="acme.demo.items.pool" class="stdClass">
+    <tag name="epwt_cache_pool" alias="acme_demo_pool" driver="snc_redis" sncredis-client="default"/>
+</service>
 ```
 
 #### Additional Options
@@ -78,51 +70,48 @@ All CacheItemPool configuration is done via Symfony Container
 ### With Trait
 
 ```php
+class HelloWorldCommand extends ContainerAwareCommand
+{
+    use CacheItemPoolsAwareTrait;
 
-	class HelloWorldCommand extends ContainerAwareCommand
-	{
-	    use CacheItemPoolsAwareTrait;
-	
-	    protected function configure()
-	    {
-	        $this->setName('acme:hello');
-	    }
-	
-	    protected function execute(InputInterface $input, OutputInterface $output)
-	    {
-	        $pool = $this->getCacheItemPool('acme_demo_pool');
-	
-	        $poolItem = new CacheItem('foo');
-	        $poolItem->set('bar');
-	
-	        $pool->save($poolItem);
-	    }
-	}
-	
+    protected function configure()
+    {
+        $this->setName('acme:hello');
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $pool = $this->getCacheItemPool('acme_demo_pool');
+
+        $poolItem = new CacheItem('foo');
+        $poolItem->set('bar');
+
+        $pool->save($poolItem);
+    }
+}
 ```
 
 ### Without Trait
 
 ```php
+class HelloWorldCommand extends ContainerAwareCommand
+{
+    protected function configure()
+    {
+        $this->setName('acme:hello');
+    }
 
-	class HelloWorldCommand extends ContainerAwareCommand
-	{
-	    protected function configure()
-	    {
-	        $this->setName('acme:hello');
-	    }
-	
-	    protected function execute(InputInterface $input, OutputInterface $output)
-	    {
-	        $pool = $this->getContainer()->get('epwt_cache_pools')->get('acme_demo_pool');
-	
-	        $poolItem = new CacheItem('foo');
-	        $poolItem->set('bar');
-	
-	        $pool->save($poolItem);
-	    }
-	}
-	
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $pool = $this->getContainer()->get('epwt_cache_pools')->get('acme_demo_pool');
+
+        $poolItem = new CacheItem('foo');
+        $poolItem->set('bar');
+
+        $pool->save($poolItem);
+    }
+}
+
 ```
 
 License
