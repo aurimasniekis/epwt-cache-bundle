@@ -1,0 +1,31 @@
+{
+  "name": "epwt/cache-bundle",
+  "type": "symfony-bundle",
+  "description": "EPWT/Cache Symfony Bundle PSR-6 Cache Item Pool",
+  "keywords": ["epwt", "symfony", "bundle", "psr-6", "cache", "redis"],
+  "homepage": "http://github.com/gcds/epwt-cache-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Aurimas Niekis",
+      "email": "aurimas.niekis@gmail.com",
+      "homepage": "https://github.com/gcds"
+    }
+  ],
+  "require": {
+    "php": ">=5.3",
+    "epwt/cache": "~1.0"
+  },
+  "suggest": {
+    "snc/redis-bundle": "Provides nice and quick integration of phpredis & predis to Symfony application"
+  },
+  "autoload": {
+    "psr-4": { "EPWT\\CacheBundle\\": "" }
+  },
+  "minimum-stability": "dev",
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  }
+}
