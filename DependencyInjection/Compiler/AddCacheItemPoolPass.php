@@ -31,8 +31,6 @@ class AddCacheItemPoolPass implements CompilerPassInterface
 
         $pools = $container->findTaggedServiceIds('epwt_cache_pool');
 
-        $validDrivers = ['redis', 'sncredis'];
-
         foreach ($pools as $id => $tags) {
             $tag = reset($tags);
 
@@ -67,64 +65,76 @@ class AddCacheItemPoolPass implements CompilerPassInterface
                 ));
             }
 
-            $driverName = $tag['driver'];
-
-            switch($driverName) {
-                case 'redis':
-                    if (!array_key_exists('redis-id', $tag)) {
-                        throw new \InvalidArgumentException(sprintf(
-                            'Service "%s" must have "redis-id" attribute for "redis" driver on tag "epwt_cache_pool"!',
-                            $id
-                        ));
-                    }
-
-                    $driverType = 'redis';
-                    $redisId = $tag['redis-id'];
-
-                    break;
-
-                case 'snc_redis':
-                    if (!array_key_exists('sncredis-client', $tag)) {
-                        throw new \InvalidArgumentException(sprintf(
-                            'Service "%s" must have "sncredis-client" attribute for "sncredis" driver on tag "epwt_cache_pool"!',
-                            $id
-                        ));
-                    }
-
-                    $driverType = 'redis';
-                    $redisId = 'snc_redis.' . $tag['sncredis-client'];
-
-                    break;
-
-                default:
-                    throw new \InvalidArgumentException(
-                        sprintf(
-                            'Invalid driver type "%s" valid driver names [%s]',
-                            $driverName,
-                            implode(', ', $validDrivers)
-                        )
-                    );
-
-                    break;
-            }
-
-            switch($driverType) {
-                case 'redis':
-                    $redisIdDriver = $redisId . '.driver';
-
-                    if (!$container->hasDefinition($redisIdDriver)) {
-                        $redisDriverDefinition = new Definition('EPWT\\Cache\\Drivers\\RedisDriver');
-                        $redisDriverDefinition->addMethodCall('setRedis', [new Reference($redisId)]);
-
-                        $container->setDefinition($redisIdDriver, $redisDriverDefinition);
-                    }
-
-                    $poolDefinition->addMethodCall('setDriver', [new Reference($redisIdDriver)]);
-
-                    break;
-            }
+            $this->parseDriver($id, $tag, $poolDefinition, $container);
 
             $poolsContainer->addMethodCall('add', [$tag['alias'], new Reference($id)]);
+        }
+    }
+
+    /**
+     * @param string $id
+     * @param array $tag
+     * @param Definition $poolDefinition
+     * @param ContainerBuilder $container
+     */
+    protected function parseDriver($id, $tag, $poolDefinition, $container)
+    {
+        $validDrivers = ['redis', 'sncredis'];
+        $driverName = $tag['driver'];
+
+        switch($driverName) {
+            case 'redis':
+                if (!array_key_exists('redis-id', $tag)) {
+                    throw new \InvalidArgumentException(sprintf(
+                        'Service "%s" must have "redis-id" attribute for "redis" driver on tag "epwt_cache_pool"!',
+                        $id
+                    ));
+                }
+
+                $driverType = 'redis';
+                $redisId = $tag['redis-id'];
+
+                break;
+
+            case 'snc_redis':
+                if (!array_key_exists('sncredis-client', $tag)) {
+                    throw new \InvalidArgumentException(sprintf(
+                        'Service "%s" must have "sncredis-client" attribute for "sncredis" driver on tag "epwt_cache_pool"!',
+                        $id
+                    ));
+                }
+
+                $driverType = 'redis';
+                $redisId = 'snc_redis.' . $tag['sncredis-client'];
+
+                break;
+
+            default:
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        'Invalid driver type "%s" valid driver names [%s]',
+                        $driverName,
+                        implode(', ', $validDrivers)
+                    )
+                );
+
+                break;
+        }
+
+        switch($driverType) {
+            case 'redis':
+                $redisIdDriver = $redisId . '.driver';
+
+                if (!$container->hasDefinition($redisIdDriver)) {
+                    $redisDriverDefinition = new Definition('EPWT\\Cache\\Drivers\\RedisDriver');
+                    $redisDriverDefinition->addMethodCall('setRedis', [new Reference($redisId)]);
+
+                    $container->setDefinition($redisIdDriver, $redisDriverDefinition);
+                }
+
+                $poolDefinition->addMethodCall('setDriver', [new Reference($redisIdDriver)]);
+
+                break;
         }
     }
 }

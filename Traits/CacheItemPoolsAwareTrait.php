@@ -2,11 +2,6 @@
 
 namespace EPWT\CacheBundle\Traits;
 
-use EPWT\Cache\Core\CacheItemPool;
-use EPWT\CacheBundle\Core\CacheItemPoolsContainer;
-use EPWT\CacheBundle\Exception\CacheItemPoolNotExistsException;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 /**
  * Trait CacheItemPoolsAwareTrait
  * @package EPWT\CacheBundle\Traits
@@ -15,15 +10,15 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 trait CacheItemPoolsAwareTrait
 {
     /**
-     * @var CacheItemPoolsContainer
+     * @var \EPWT\CacheBundle\Core\CacheItemPoolsContainer
      */
     protected $cacheItemPoolsContainer;
 
     /**
      * @param string $name ClassItemPool Alias
      *
-     * @return CacheItemPool
-     * @throws CacheItemPoolNotExistsException
+     * @return \EPWT\Cache\Core\CacheItemPool
+     * @throws \EPWT\CacheBundle\Exception\CacheItemPoolNotExistsException
      */
     public function getCacheItemPool($name)
     {
