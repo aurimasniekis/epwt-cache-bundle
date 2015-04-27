@@ -4,7 +4,7 @@ EPWTCacheBundle
 [![Analytics](https://ga-beacon.appspot.com/UA-62340336-1/gcds/epwt-cache)](https://github.com/igrigorik/ga-beacon) 
 
 
-The EPWTCacheBundle provides wrapper for `epwt/cache` library smashed with [Symfony DependencyInjection](https://github.com/symfony/DependencyInjection) magic.
+The EPWTCacheBundle provides wrapper for [epwt/cache](https://github.com/gcds/epwt-cache) library smashed with [Symfony DependencyInjection](https://github.com/symfony/DependencyInjection) magic.
 
 #### EPWT/Cache
 
